@@ -1,0 +1,10 @@
+Source:
+https://www.youtube.com/watch?v=pUNSHPyVryU&list=PLRfcTs7jiwdd77lAtRIhk3W33m5ZcM1oS&index=12
+
+Time stamp:
+2:33:38
+
+This project uses HeadlessUI
+
+Remove underscores from data grabbed via API (found in CarDetails.tsx):
+key.split("_").join(" ")
