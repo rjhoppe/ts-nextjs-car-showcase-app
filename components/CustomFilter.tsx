@@ -2,11 +2,8 @@
 
 import { Fragment, useState } from "react"
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
 import { Listbox, Transition } from "@headlessui/react";
 import { CustomFilterProps } from "@/types";
-import { Router } from "next/router";
-import { updateSearchParams } from "@/utils";
 
 export default function CustomFilter<T>({
   options,
@@ -44,15 +41,18 @@ export default function CustomFilter<T>({
               {options.map((option) => (
                 <Listbox.Option
                   key={option.title}
-                  value={option}
                   className={({ active }) => `relative cursor-default select-none py-2 px-4 
                   ${active ? 'bg-primary-blue text-white' : 'text-gray-900'}`}
+                  value={option}
                 >
                   {({ selected }) => (
-                    <span className={`block truncate ${selected ? 
-                      'font-medium' : 'font-normal'}`}>
-                      {option.title}
-                    </span>
+                    <>
+                      <span 
+                        className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                      >
+                        {option.title}
+                      </span>
+                    </>
                   )}
                 </Listbox.Option>
               ))}

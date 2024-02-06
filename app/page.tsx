@@ -4,11 +4,11 @@ import { CustomFilter, Hero, SearchBar, CarCard, ShowMore } from "@/components";
 import { fetchCars } from "@/utils";
 import { yearsOfProduction, fuels } from "@/constants";
 import { useEffect, useState } from "react";
+import { CarState } from "@/types"
 import Image from "next/image";
 
 export default function Home() {
-
-  const [allCars, setAllCars] = useState([]);
+  const [allCars, setAllCars] = useState<CarState>([]);
   const[loading, setLoading] = useState(false);
 
   // search states
@@ -24,27 +24,25 @@ export default function Home() {
 
   const getCars = async () => {
     setLoading(true);
-    
     try {
       const result = await fetchCars({
-        manufacturer: manufacturer || "",
+        manufacturer: manufacturer.toLowerCase() || "",
+        model: model.toLowerCase() || "",
+        fuel: fuel.toLowerCase() || "",
         year: year || 2022,
-        fuel: fuel || "",
         limit: limit || 10,
-        model: model || "",
       });     
       setAllCars(result);
-    } catch (error) {
-      console.log(error);
+    } catch {
+      console.error();
     } finally {
       setLoading(false);
     }
 }
 
   useEffect(() => {
-
     getCars();
-  }, [fuel, year, limit, manufacturer, model])
+  }, [fuel, year, limit, manufacturer, model]);
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
@@ -73,8 +71,8 @@ export default function Home() {
         {allCars.length > 0 ? (
           <section>
             <div className="home__cars-wrapper">
-              {allCars?.map((car) => (
-                <CarCard car={car} />
+              {allCars?.map((car, index) => (
+                <CarCard key={`car-${index}`} car={car} />
               ))}
             </div>
 
@@ -97,12 +95,14 @@ export default function Home() {
             />
           </section>
         ): (
+          !loading && (
           <div className="home__error-container">
             <h2 className="text-black text-xl font-bold">Oops, no results</h2>
             <p>{allCars?.message}</p>
           </div>
+          )
         )}
       </div>
     </main>
-  )
+  );
 }

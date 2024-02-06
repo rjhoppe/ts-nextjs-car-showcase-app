@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from "react";
-import { useRouter } from 'next/navigation';
 
 import SearchManufacturer from "./SearchManufacturer";
 import { SearchBarProps } from "@/types";
 import Image from "next/image";
 
 const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
-  <button type="submit" className={`-ml-3 z-10`}>
+  <button type="submit" className={`-ml-3 z-10 ${otherClasses}`}>
     <Image
       src="/magnifying-glass.svg"
       alt="magnifying glass"
@@ -17,7 +16,7 @@ const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
       className="object-contain"
     />
   </button>
-)
+);
 
 const SearchBar = ({ setManufacturer, setModel }: SearchBarProps) => {
   const [searchModel, setSearchModel] = useState('');
@@ -32,7 +31,7 @@ const SearchBar = ({ setManufacturer, setModel }: SearchBarProps) => {
 
     setSearchModel(searchModel)
     setSearchManufacturer(searchManufacturer)
-  }
+  };
   
   return (
     <form className="searchbar" onSubmit={handleSearch}>
@@ -56,14 +55,14 @@ const SearchBar = ({ setManufacturer, setModel }: SearchBarProps) => {
           name="model"
           value={searchModel}
           onChange={(e) => setSearchModel(e.target.value)}
-          placeholder="Tiguan"
+          placeholder="Tiguan..."
           className="searchbar__input"
         />
         <SearchButton otherClasses="sm:hidden"/> 
       </div>
       <SearchButton otherClasses="max-sm:hidden"/>
     </form>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;
